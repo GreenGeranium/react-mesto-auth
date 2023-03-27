@@ -9,6 +9,10 @@ import EditProfilePopup from "./EditProfilePopup.js";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import ConfirmationPopup from "./ConfirmationPopup";
+import { Navigate, Route, Routes } from "react-router-dom";
+import Register from "./Register";
+import Login from "./Login";
+import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
   //установление изначально закрытых папапов
@@ -174,19 +178,36 @@ function App() {
     setSelectedCard({});
   }
 
+  //авторизован ли пользователь
+  const [loggedIn, setLoggedIn] = useState(false);
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Header></Header>
-        <Main
-          onEditProfile={handleEditProfileClick}
-          onAddPlace={handleAddPlaceClick}
-          onEditAvatar={handleEditAvatarClick}
-          onCardClick={handleCardClick}
-          cards={cards}
-          onCardLike={handleCardLike}
-          onTrashClick={handleConfirmation}
-        ></Main>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute
+                loggedIn={loggedIn}
+                element={
+                  <Main
+                    onEditProfile={handleEditProfileClick}
+                    onAddPlace={handleAddPlaceClick}
+                    onEditAvatar={handleEditAvatarClick}
+                    onCardClick={handleCardClick}
+                    cards={cards}
+                    onCardLike={handleCardLike}
+                    onTrashClick={handleConfirmation}
+                  ></Main>
+                }
+              ></ProtectedRoute>
+            }
+          ></Route>
+          <Route path="/sign-in" element={<Login></Login>}></Route>
+          <Route path="/sign-up" element={<Register></Register>}></Route>
+        </Routes>
         <Footer></Footer>
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}

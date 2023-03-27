@@ -13,4 +13,4 @@
 
 **Ссылка на сайт**
 
-https://greengeranium.github.io/mesto-react/
+https://greengeranium.github.io/react-mesto-auth/
