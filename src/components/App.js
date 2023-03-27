@@ -179,29 +179,26 @@ function App() {
   }
 
   //авторизован ли пользователь
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(true);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header></Header>
+        <Header loggedIn={loggedIn}></Header>
         <Routes>
           <Route
             path="/"
             element={
               <ProtectedRoute
                 loggedIn={loggedIn}
-                element={
-                  <Main
-                    onEditProfile={handleEditProfileClick}
-                    onAddPlace={handleAddPlaceClick}
-                    onEditAvatar={handleEditAvatarClick}
-                    onCardClick={handleCardClick}
-                    cards={cards}
-                    onCardLike={handleCardLike}
-                    onTrashClick={handleConfirmation}
-                  ></Main>
-                }
+                onEditProfile={handleEditProfileClick}
+                onAddPlace={handleAddPlaceClick}
+                onEditAvatar={handleEditAvatarClick}
+                onCardClick={handleCardClick}
+                cards={cards}
+                onCardLike={handleCardLike}
+                onTrashClick={handleConfirmation}
+                element={Main}
               ></ProtectedRoute>
             }
           ></Route>
