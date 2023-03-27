@@ -1,4 +1,4 @@
-.register__question {
+.auth__question {
     margin: 15px 0 0 0;
     font-style: normal;
     font-weight: 400;
@@ -10,7 +10,7 @@
 }
 
 @media screen and (max-width: 410px) {
-    .register__question {
+    .auth__question {
         margin: 20px 0 0 0;
     }
 }

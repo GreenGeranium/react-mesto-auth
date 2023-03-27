@@ -1,8 +1,8 @@
 function Register() {
   return (
     <main className="content">
-      <section className="register">
-        <h2 className="register__title">Регистрация</h2>
+      <section className="auth">
+        <h2 className="auth__title">Регистрация</h2>
         <form className="form">
           <label className="form__field">
             <input
@@ -28,7 +28,7 @@ function Register() {
             Зарегистрироваться
           </button>
         </form>
-        <p className="register__question">
+        <p className="auth__question">
           Уже зарегистрированы? <a className="register__question">Войти</a>
         </p>
       </section>
