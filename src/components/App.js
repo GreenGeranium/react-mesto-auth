@@ -9,11 +9,13 @@ import EditProfilePopup from "./EditProfilePopup.js";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import ConfirmationPopup from "./ConfirmationPopup";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import Register from "./Register";
 import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
 import InfoTooltip from "./InfoTooltip";
+import * as auth from "../utils/auth";
+import PageNotFound from "./PageNotFound";
 
 function App() {
   //установление изначально закрытых папапов
@@ -58,7 +60,7 @@ function App() {
   function handleDeleteCard() {
     api
       .handleDeleteCard(deletingCard._id)
-      .then((data) => {
+      .then(() => {
         renderCardsAfterDeleting();
         closeAllPopups();
       })
@@ -185,10 +187,52 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
 
   //данные пользователя
-  const [userEmail, setUserEmail] = useState("grassi2003@gmail.com");
+  const [userEmail, setUserEmail] = useState("");
 
   //успешная ли регистрация
-  const [registrationSuccessful, setRegistrationSuccessful] = useState(true);
+  const [registrationSuccessful, setRegistrationSuccessful] = useState(false);
+
+  const navigate = useNavigate();
+
+  //регистрация пользователя
+  function onRegister(email, password) {
+    auth
+      .register(email, password)
+      .then((response) => {
+        navigate("/sign-in", { replace: true });
+        setIsInfoTooltipPopupOpen(true);
+        setRegistrationSuccessful(true);
+      })
+      .catch((err) => {
+        setIsInfoTooltipPopupOpen(true);
+        setRegistrationSuccessful(false);
+        console.log(err);
+      });
+  }
+
+  //авторизация пользователя
+  function onLogin(email, password) {
+    auth.authorize(email, password).then((data) => {
+      if (data.token) {
+        navigate("/", { replace: true });
+        setLoggedIn(true);
+        localStorage.setItem("token", data.token);
+        setUserEmail(email);
+      }
+    });
+  }
+
+  //при открытии страницы проверяется токен
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      const jwt = localStorage.getItem("token");
+      auth.checkToken(jwt).then((data) => {
+        setUserEmail(data.data.email);
+        setLoggedIn(true);
+        navigate("/", { replace: true });
+      });
+    }
+  }, []);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -211,8 +255,15 @@ function App() {
               ></ProtectedRoute>
             }
           ></Route>
-          <Route path="/sign-in" element={<Login></Login>}></Route>
-          <Route path="/sign-up" element={<Register></Register>}></Route>
+          <Route
+            path="/sign-in"
+            element={<Login onLogin={onLogin}></Login>}
+          ></Route>
+          <Route
+            path="/sign-up"
+            element={<Register onRegister={onRegister}></Register>}
+          ></Route>
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
         <Footer></Footer>
         <InfoTooltip

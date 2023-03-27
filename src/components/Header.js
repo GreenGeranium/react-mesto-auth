@@ -1,7 +1,17 @@
 import logo from "../images/logo.svg";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 function Header(props) {
   const pathname = window.location.pathname;
+
+  //выход из аккаунта
+
+  const navigate = useNavigate();
+  function onSignOut() {
+    localStorage.removeItem("token");
+    navigate("/sign-in");
+  }
 
   return (
     <header className="header">
@@ -9,15 +19,22 @@ function Header(props) {
       {props.loggedIn ? (
         <div className="header__account">
           <p className="header__email">{props.userEmail}</p>
-          <a className="header__link">Выйти</a>
+          <a className="header__link" onClick={onSignOut}>
+            Выйти
+          </a>
         </div>
       ) : pathname === "/sign-in" ? (
-        <a className="header__link">Регистрация</a>
+        <Link className="header__link" to="/sign-up">
+          Регистрация
+        </Link>
       ) : (
-        <a className="header__link">Войти</a>
+        <Link className="header__link" to="/sign-in">
+          Войти
+        </Link>
       )}
     </header>
   );
+  //TODO: исправить в шапке название ссылки
 }
 
 export default Header;
