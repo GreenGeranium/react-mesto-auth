@@ -13,6 +13,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import Register from "./Register";
 import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
+import InfoTooltip from "./InfoTooltip";
 
 function App() {
   //установление изначально закрытых папапов
@@ -21,6 +22,7 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
   const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = useState(false);
+  const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = useState(false);
 
   //выбранная карточка
   const [selectedCard, setSelectedCard] = useState({});
@@ -173,18 +175,25 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsImagePopupOpen(false);
     setIsConfirmationPopupOpen(false);
+    setIsInfoTooltipPopupOpen(false);
 
     //сброс выбранной карточки
     setSelectedCard({});
   }
 
   //авторизован ли пользователь
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  //данные пользователя
+  const [userEmail, setUserEmail] = useState("grassi2003@gmail.com");
+
+  //успешная ли регистрация
+  const [registrationSuccessful, setRegistrationSuccessful] = useState(true);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header loggedIn={loggedIn}></Header>
+        <Header loggedIn={loggedIn} userEmail={userEmail}></Header>
         <Routes>
           <Route
             path="/"
@@ -206,6 +215,11 @@ function App() {
           <Route path="/sign-up" element={<Register></Register>}></Route>
         </Routes>
         <Footer></Footer>
+        <InfoTooltip
+          isOpen={isInfoTooltipPopupOpen}
+          onClose={closeAllPopups}
+          registrationSuccessful={registrationSuccessful}
+        ></InfoTooltip>
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
