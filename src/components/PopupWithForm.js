@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import Popup from "./Popup";
 
 function PopupWithForm(props) {
   //закрытие по клавише Esc
@@ -17,38 +18,22 @@ function PopupWithForm(props) {
   }, [props.isOpen]);
 
   return (
-    <div
-      className={`popup popup_${props.name} ${
-        props.isOpen ? "popup_opened" : ""
-      }`}
-      onClick={props.onClose}
-    >
-      <div
-        className="popup__container"
-        onClick={(event) => event.stopPropagation()}
+    <Popup onClose={props.onClose} isOpen={props.isOpen} name={props.name}>
+      <h2 className="popup__title">{props.title}</h2>
+      <form
+        method="get"
+        name={props.nameOfForm}
+        className="form"
+        noValidate
+        id={props.idOfForm}
+        onSubmit={props.onSubmit}
       >
-        <button
-          className="popup__close-button"
-          type="button"
-          aria-label="Закрыть попап"
-          onClick={props.onClose}
-        ></button>
-        <h2 className="popup__title">{props.title}</h2>
-        <form
-          method="get"
-          name={props.nameOfForm}
-          className="form"
-          noValidate
-          id={props.idOfForm}
-          onSubmit={props.onSubmit}
-        >
-          {props.children}
-          <button className="form__save-button" type="submit">
-            {props.buttonText}
-          </button>
-        </form>
-      </div>
-    </div>
+        {props.children}
+        <button className="form__save-button" type="submit">
+          {props.buttonText}
+        </button>
+      </form>
+    </Popup>
   );
 }
 

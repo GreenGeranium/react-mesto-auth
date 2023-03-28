@@ -202,7 +202,7 @@ function App() {
   function onRegister(email, password) {
     auth
       .register(email, password)
-      .then(() => {
+      .then((data) => {
         navigate("/sign-in", { replace: true });
         setIsInfoTooltipPopupOpen(true);
         setAuthSuccessful(true);

@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import Popup from "./Popup";
 
 function ImagePopup(props) {
   //закрытие по клавише Esc
@@ -17,20 +18,21 @@ function ImagePopup(props) {
   }, [props.isOpen]);
 
   return (
-    <div
-      className={`popup popup_image ${props.isOpen ? "popup_opened" : ""}`}
-      onClick={props.onClose}
+    <Popup
+      onClose={props.onClose}
+      isOpen={props.isOpen}
+      name={props.name}
+      containerType="popup__container_type_image"
     >
-      <div
-        className="popup__container popup__container_type_image"
-        onClick={(event) => event.stopPropagation()}
+      <h2 className="popup__title">{props.title}</h2>
+      <form
+        method="get"
+        name={props.nameOfForm}
+        className="form"
+        noValidate
+        id={props.idOfForm}
+        onSubmit={props.onSubmit}
       >
-        <button
-          className="popup__close-button"
-          type="button"
-          aria-label="Закрыть попап"
-          onClick={props.onClose}
-        ></button>
         <figure className="popup__figure">
           <img
             src={props.card.link}
@@ -39,8 +41,8 @@ function ImagePopup(props) {
           />
           <figcaption className="popup__subline">{props.card.name}</figcaption>
         </figure>
-      </div>
-    </div>
+      </form>
+    </Popup>
   );
 }
 

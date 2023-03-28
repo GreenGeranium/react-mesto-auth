@@ -1,6 +1,5 @@
 .header {
   display: flex;
-  flex-direction: row;
   margin: 0 200px 41px;
   padding-top: 45px;
   position: relative;
@@ -18,7 +17,7 @@
   left: 0;
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 880px) {
   .header{
     padding-top: 34px;
     margin: 0 30px 31.6px;

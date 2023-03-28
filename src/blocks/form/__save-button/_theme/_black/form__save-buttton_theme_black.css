@@ -4,7 +4,7 @@
     margin-top: calc(216px - 30px);
 }
 
-.form__save-button:hover {
+.form__save-buttton_theme_black:hover {
     background-color: white;
     opacity: 0.8;
 }

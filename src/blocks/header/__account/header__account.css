@@ -1,6 +1,5 @@
 .header__account {
     column-gap: 30px;
     display: flex;
-    flex-direction: row;
     padding-top: 6px;
 }

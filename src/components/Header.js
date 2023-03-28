@@ -10,7 +10,6 @@ function Header(props) {
   return (
     <header className="header">
       <img src={logo} alt="Логотип проекта Место Россия" className="logo" />
-
       <Routes>
         <Route
           path="/sign-in"
@@ -32,12 +31,14 @@ function Header(props) {
           path="/"
           element={
             props.loggedIn && (
-              <div className="header__account">
-                <p className="header__email">{props.userEmail}</p>
-                <a className="header__link" onClick={onClick}>
-                  Выйти
-                </a>
-              </div>
+              <>
+                <div className="header__account">
+                  <p className="header__email">{props.userEmail}</p>
+                  <a className="header__email header__link" onClick={onClick}>
+                    Выйти
+                  </a>
+                </div>
+              </>
             )
           }
         ></Route>

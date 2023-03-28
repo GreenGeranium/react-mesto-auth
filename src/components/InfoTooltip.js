@@ -1,38 +1,25 @@
 import CorrectImage from "../images/Correct.svg";
 import ErrorImage from "../images/Error.svg";
+import Popup from "./Popup";
 
 function InfoTooltip(props) {
   return (
-    <div
-      className={`popup ${props.isOpen ? "popup_opened" : ""}`}
-      onClick={props.onClose}
-    >
-      <div
-        className="popup__container"
-        onClick={(event) => event.stopPropagation()}
-      >
-        <img
-          src={props.authSuccessful ? CorrectImage : ErrorImage}
-          className="infotooltip__image"
-          alt="Значок ошибки"
-        />
-        <h2 className="infotooltip__text">
-          {props.authSuccessful
-            ? `Вы успешно ${
-                props.authMessage === "registration"
-                  ? "зарегистрировались"
-                  : "вошли"
-              } !`
-            : "Что-то пошло не так!\n" + "Попробуйте ещё раз."}
-        </h2>
-        <button
-          className="popup__close-button"
-          type="button"
-          aria-label="Закрыть попап"
-          onClick={props.onClose}
-        ></button>
-      </div>
-    </div>
+    <Popup onClose={props.onClose} isOpen={props.isOpen} name={props.name}>
+      <img
+        src={props.authSuccessful ? CorrectImage : ErrorImage}
+        className="infotooltip__image"
+        alt="Значок ошибки"
+      />
+      <h2 className="infotooltip__text">
+        {props.authSuccessful
+          ? `Вы успешно ${
+              props.authMessage === "registration"
+                ? "зарегистрировались"
+                : "вошли"
+            } !`
+          : "Что-то пошло не так!\n" + "Попробуйте ещё раз."}
+      </h2>
+    </Popup>
   );
 }
 
