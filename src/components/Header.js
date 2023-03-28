@@ -1,37 +1,47 @@
 import logo from "../images/logo.svg";
-import { Link, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { Link, Route, Routes, useNavigate } from "react-router-dom";
 
 function Header(props) {
-  const pathname = window.location.pathname;
-
-  //выход из аккаунта
-
-  const navigate = useNavigate();
-  function onSignOut() {
-    localStorage.removeItem("token");
-    navigate("/sign-in");
+  //обработчик клика по Выйти
+  function onClick() {
+    props.onSignout();
   }
 
   return (
     <header className="header">
       <img src={logo} alt="Логотип проекта Место Россия" className="logo" />
-      {props.loggedIn ? (
-        <div className="header__account">
-          <p className="header__email">{props.userEmail}</p>
-          <a className="header__link" onClick={onSignOut}>
-            Выйти
-          </a>
-        </div>
-      ) : pathname === "/sign-in" ? (
-        <Link className="header__link" to="/sign-up">
-          Регистрация
-        </Link>
-      ) : (
-        <Link className="header__link" to="/sign-in">
-          Войти
-        </Link>
-      )}
+
+      <Routes>
+        <Route
+          path="/sign-in"
+          element={
+            <Link className="header__link" to="/sign-up">
+              Регистрация
+            </Link>
+          }
+        ></Route>
+        <Route
+          path="/sign-up"
+          element={
+            <Link className="header__link" to="/sign-in">
+              Войти
+            </Link>
+          }
+        ></Route>
+        <Route
+          path="/"
+          element={
+            props.loggedIn && (
+              <div className="header__account">
+                <p className="header__email">{props.userEmail}</p>
+                <a className="header__link" onClick={onClick}>
+                  Выйти
+                </a>
+              </div>
+            )
+          }
+        ></Route>
+      </Routes>
     </header>
   );
   //TODO: исправить в шапке название ссылки

@@ -12,13 +12,17 @@ function InfoTooltip(props) {
         onClick={(event) => event.stopPropagation()}
       >
         <img
-          src={props.registrationSuccessful ? CorrectImage : ErrorImage}
+          src={props.authSuccessful ? CorrectImage : ErrorImage}
           className="infotooltip__image"
           alt="Значок ошибки"
         />
         <h2 className="infotooltip__text">
-          {props.registrationSuccessful
-            ? "Вы успешно зарегистрировались!"
+          {props.authSuccessful
+            ? `Вы успешно ${
+                props.authMessage === "registration"
+                  ? "зарегистрировались"
+                  : "вошли"
+              } !`
             : "Что-то пошло не так!\n" + "Попробуйте ещё раз."}
         </h2>
         <button

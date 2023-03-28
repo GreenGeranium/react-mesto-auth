@@ -38,7 +38,7 @@ function App() {
   //данные карточки, которую нужно удалить
   const [deletingCard, setDeletingCard] = useState({});
 
-  //получение действующего профиля
+  //получение действующего профиля при рендере
   useEffect(() => {
     api
       .getUserInfo()
@@ -190,7 +190,11 @@ function App() {
   const [userEmail, setUserEmail] = useState("");
 
   //успешная ли регистрация
-  const [registrationSuccessful, setRegistrationSuccessful] = useState(false);
+  const [authSuccessful, setAuthSuccessful] = useState(false);
+
+  //параметр успешной авторизации/регистрации
+
+  const [authMessage, setAuthMessage] = useState("");
 
   const navigate = useNavigate();
 
@@ -198,46 +202,73 @@ function App() {
   function onRegister(email, password) {
     auth
       .register(email, password)
-      .then((response) => {
+      .then(() => {
         navigate("/sign-in", { replace: true });
         setIsInfoTooltipPopupOpen(true);
-        setRegistrationSuccessful(true);
+        setAuthSuccessful(true);
+        setAuthMessage("registration");
       })
       .catch((err) => {
         setIsInfoTooltipPopupOpen(true);
-        setRegistrationSuccessful(false);
+        setAuthSuccessful(false);
         console.log(err);
       });
   }
 
   //авторизация пользователя
   function onLogin(email, password) {
-    auth.authorize(email, password).then((data) => {
-      if (data.token) {
-        navigate("/", { replace: true });
-        setLoggedIn(true);
-        localStorage.setItem("token", data.token);
-        setUserEmail(email);
-      }
-    });
+    auth
+      .authorize(email, password)
+      .then((data) => {
+        if (data.token) {
+          navigate("/", { replace: true });
+          setLoggedIn(true);
+          localStorage.setItem("token", data.token);
+          setUserEmail(email);
+          setIsInfoTooltipPopupOpen(true);
+          setAuthSuccessful(true);
+          setAuthMessage("authentication");
+        }
+      })
+      .catch((err) => {
+        setIsInfoTooltipPopupOpen(true);
+        setAuthSuccessful(false);
+        console.log(err);
+      });
   }
 
   //при открытии страницы проверяется токен
   useEffect(() => {
     if (localStorage.getItem("token")) {
       const jwt = localStorage.getItem("token");
-      auth.checkToken(jwt).then((data) => {
-        setUserEmail(data.data.email);
-        setLoggedIn(true);
-        navigate("/", { replace: true });
-      });
+      auth
+        .checkToken(jwt)
+        .then((data) => {
+          setUserEmail(data.data.email);
+          setLoggedIn(true);
+          navigate("/", { replace: true });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   }, []);
+
+  //выход из аккаунта
+  function onSignout() {
+    localStorage.removeItem("token");
+    navigate("/sign-in");
+    setLoggedIn(false);
+  }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header loggedIn={loggedIn} userEmail={userEmail}></Header>
+        <Header
+          loggedIn={loggedIn}
+          userEmail={userEmail}
+          onSignout={onSignout}
+        ></Header>
         <Routes>
           <Route
             path="/"
@@ -269,7 +300,8 @@ function App() {
         <InfoTooltip
           isOpen={isInfoTooltipPopupOpen}
           onClose={closeAllPopups}
-          registrationSuccessful={registrationSuccessful}
+          authSuccessful={authSuccessful}
+          authMessage={authMessage}
         ></InfoTooltip>
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
