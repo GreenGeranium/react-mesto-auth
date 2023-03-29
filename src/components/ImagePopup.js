@@ -24,24 +24,14 @@ function ImagePopup(props) {
       name={props.name}
       containerType="popup__container_type_image"
     >
-      <h2 className="popup__title">{props.title}</h2>
-      <form
-        method="get"
-        name={props.nameOfForm}
-        className="form"
-        noValidate
-        id={props.idOfForm}
-        onSubmit={props.onSubmit}
-      >
-        <figure className="popup__figure">
-          <img
-            src={props.card.link}
-            className="popup__image"
-            alt={props.card.name}
-          />
-          <figcaption className="popup__subline">{props.card.name}</figcaption>
-        </figure>
-      </form>
+      <figure className="popup__figure">
+        <img
+          src={props.card.link}
+          className="popup__image"
+          alt={props.card.name}
+        />
+        <figcaption className="popup__subline">{props.card.name}</figcaption>
+      </figure>
     </Popup>
   );
 }
