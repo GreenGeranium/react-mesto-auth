@@ -261,13 +261,31 @@ function App() {
     setLoggedIn(false);
   }
 
+  //открытие и закрытие бургера
+  const [isBurgerOpen, setIsBurgerOpen] = useState(false);
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
+        {loggedIn && (
+          <div
+            className={`account__burger ${
+              isBurgerOpen && "account__burger_open"
+            }`}
+          >
+            <p className="account__email">{userEmail}</p>
+            <a className="account__email account__link" onClick={onSignout}>
+              Выйти
+            </a>
+          </div>
+        )}
         <Header
           loggedIn={loggedIn}
           userEmail={userEmail}
           onSignout={onSignout}
+          handleBurgerClick={() => {
+            setIsBurgerOpen(!isBurgerOpen);
+          }}
         ></Header>
         <Routes>
           <Route

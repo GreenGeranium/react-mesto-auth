@@ -1,4 +1,4 @@
-.header__link {
+.account__link {
     font-style: normal;
     font-weight: 400;
     font-size: 18px;
@@ -9,12 +9,12 @@
     color: #A9A9A9;
 }
 
-.header__link:hover {
+.account__link:hover {
     opacity: 0.6;
 }
 
 @media screen and (max-width: 767px) {
-    .header__link{
+    .account__link{
         padding-top: 0;
         margin: 0;
     }

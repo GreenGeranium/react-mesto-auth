@@ -14,7 +14,7 @@ function Header(props) {
         <Route
           path="/sign-in"
           element={
-            <Link className="header__link" to="/sign-up">
+            <Link className="account__link" to="/sign-up">
               Регистрация
             </Link>
           }
@@ -22,7 +22,7 @@ function Header(props) {
         <Route
           path="/sign-up"
           element={
-            <Link className="header__link" to="/sign-in">
+            <Link className="account__link" to="/sign-in">
               Войти
             </Link>
           }
@@ -32,9 +32,15 @@ function Header(props) {
           element={
             props.loggedIn && (
               <>
-                <div className="header__account">
-                  <p className="header__email">{props.userEmail}</p>
-                  <a className="header__email header__link" onClick={onClick}>
+                <div
+                  className="account__button"
+                  onClick={props.handleBurgerClick}
+                >
+                  <div></div>
+                </div>
+                <div className="account">
+                  <p className="account__email">{props.userEmail}</p>
+                  <a className="account__email account__link" onClick={onClick}>
                     Выйти
                   </a>
                 </div>
