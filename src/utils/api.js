@@ -79,9 +79,9 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: "https://mesto.nomoreparties.co/v1/cohort-58",
+  baseUrl: "http://localhost:4000",
   headers: {
-    authorization: "a1cc8da9-0d2e-4557-86c3-213f2f44f274",
+    Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDRmZDY4ODRlNWNlNGVlOWMxOGFiOGMiLCJpYXQiOjE2ODM5NjUxNjgsImV4cCI6MTY4NDU2OTk2OH0.WxpbfMpkT6993RKpMkBdaFheDS6sg7X2NOr2yEpCu-A",
     "Content-Type": "application/json",
   },
 });
